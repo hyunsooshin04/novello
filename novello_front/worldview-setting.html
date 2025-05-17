@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Novello Studio - 세계관 설정</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+            }
+            header {
+                background-color: #2c3e50;
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                background-color: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h2 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .worldview-section {
+                margin-bottom: 30px;
+            }
+            .worldview-section label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 8px;
+            }
+            .input-row {
+                display: flex;
+                gap: 10px;
+            }
+            textarea {
+                flex: 1;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                resize: vertical;
+                font-size: 16px;
+                min-height: 100px;
+            }
+            .ai-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+                background-color: #eee;
+                border: 1px solid #bbb;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+            .next-btn {
+                width: 100%;
+                margin-top: 30px;
+                padding: 15px;
+                font-size: 18px;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .next-btn:hover {
+                background-color: #2980b9;
+            }
+            footer {
+                text-align: center;
+                margin-top: 80px;
+                padding: 20px;
+                font-size: 14px;
+                color: #777;
+                background-color: #ecf0f1;
+            }
+            .modal-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.4);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+            .modal {
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                max-width: 500px;
+                width: 90%;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                text-align: center;
+            }
+            .modal input {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+            }
+            .modal button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #3498db;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>🌍 세계관 설정</h1>
+        </header>
+
+        <div class="container">
+            <h2>AI가 생성한 세계관을 수정하거나 AI 제안을 받아보세요</h2>
+
+            <div class="worldview-section">
+                <label for="background">세계 배경</label>
+                <div class="input-row">
+                    <textarea id="background">
+이 세계는 세 개의 대륙과 다섯 개의 왕국이 존재하며, 마법과 기술이 공존하는 혼란한 시대입니다.</textarea
+                    >
+                    <button type="button" class="ai-btn" onclick="showModal('background')">AI 제안</button>
+                </div>
+            </div>
+
+            <div class="worldview-section">
+                <label for="history">세계 역사</label>
+                <div class="input-row">
+                    <textarea id="history">
+500년 전 '대붕괴'라는 재앙 이후, 각 왕국은 서로 협력과 배신을 반복하며 지금의 세력 균형을 이루고 있습니다.</textarea
+                    >
+                    <button type="button" class="ai-btn" onclick="showModal('history')">AI 제안</button>
+                </div>
+            </div>
+
+            <div class="worldview-section">
+                <label for="power">지배 체계 및 질서</label>
+                <div class="input-row">
+                    <textarea id="power">
+왕정 중심이지만, 일부 지역은 마법 길드나 종교 세력이 실권을 쥐고 있습니다.</textarea
+                    >
+                    <button type="button" class="ai-btn" onclick="showModal('power')">AI 제안</button>
+                </div>
+            </div>
+
+            <div class="worldview-section">
+                <label for="myth">신화 또는 세계관의 룰</label>
+                <div class="input-row">
+                    <textarea id="myth">
+세계는 다섯 개의 원소신에 의해 유지되며, 각 신의 힘은 선택받은 자를 통해 세상에 드러납니다.</textarea
+                    >
+                    <button type="button" class="ai-btn" onclick="showModal('myth')">AI 제안</button>
+                </div>
+            </div>
+
+            <button class="next-btn" onclick="goToCharacter()">캐릭터 설정으로 이동</button>
+        </div>
+
+        <!-- Modal -->
+        <div id="modal-backdrop" class="modal-backdrop" onclick="closeModal(event)">
+            <div class="modal" onclick="event.stopPropagation()">
+                <h3 id="modal-title">AI 제안 요청</h3>
+                <div id="step-prompt">
+                    <p>어떤 방식으로 제안해드릴까요?</p>
+                    <input type="text" id="promptInput" placeholder="예: 역사적 갈등 중심으로 써줘" />
+                    <button onclick="generateSuggestion()">확인</button>
+                </div>
+                <div id="step-suggestion" style="display: none">
+                    <p><strong>AI 제안 결과:</strong></p>
+                    <p
+                        id="modal-suggestion"
+                        style="white-space: pre-line; background: #f4f4f4; padding: 10px; border-radius: 6px"
+                    ></p>
+                    <button onclick="applySuggestion()">적용</button>
+                    <button onclick="closeModal()">취소</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>© 2025 Novello Studio. All rights reserved.</footer>
+
+        <script>
+            let currentField = null;
+            let currentGenerated = "";
+
+            function goToCharacter() {
+                alert("세계관이 저장되었습니다.");
+                window.location.href = "character-setting.html";
+            }
+
+            function showModal(field) {
+                currentField = field;
+                document.getElementById("promptInput").value = "";
+                document.getElementById("modal-suggestion").innerText = "";
+                document.getElementById("step-prompt").style.display = "block";
+                document.getElementById("step-suggestion").style.display = "none";
+                document.getElementById("modal-backdrop").style.display = "flex";
+            }
+
+            function generateSuggestion() {
+                const prompt = document.getElementById("promptInput").value.trim();
+                if (!prompt) return alert("내용을 입력해주세요.");
+
+                const sample = {
+                    background:
+                        "AI 제안: 세 대륙은 고대의 전쟁으로 나뉘었고, 왕국들은 서로 다른 신념으로 세워졌습니다.",
+                    history:
+                        "AI 제안: 수백 년 전 대륙 전체를 덮은 대마법 전쟁 이후, 세계는 평화와 분열을 반복하고 있습니다.",
+                    power: "AI 제안: 각 지역은 왕, 귀족, 마법 길드, 종교 사제가 분권적으로 통치하고 있습니다.",
+                    myth: "AI 제안: 세상은 여섯 원소신이 균형을 이루며 지탱하고 있으며, 이 균형이 무너질 조짐을 보입니다.",
+                };
+
+                currentGenerated = sample[currentField];
+                document.getElementById("modal-suggestion").innerText = currentGenerated;
+                document.getElementById("step-prompt").style.display = "none";
+                document.getElementById("step-suggestion").style.display = "block";
+            }
+
+            function applySuggestion() {
+                document.getElementById(currentField).value = currentGenerated;
+                closeModal();
+            }
+
+            function closeModal(e) {
+                if (!e || e.target === document.getElementById("modal-backdrop")) {
+                    document.getElementById("modal-backdrop").style.display = "none";
+                }
+            }
+        </script>
+    </body>
+</html>

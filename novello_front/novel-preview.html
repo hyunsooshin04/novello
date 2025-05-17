@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Novello Studio - 소설 미리보기</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family: "Noto Sans KR", sans-serif;
+                background-color: #fff;
+                color: #333;
+                padding: 40px;
+                max-width: 800px;
+                margin: auto;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            .episode {
+                margin-bottom: 50px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 30px;
+            }
+            .episode h2 {
+                color: #2c3e50;
+            }
+            .prompt {
+                font-style: italic;
+                color: #888;
+                margin-bottom: 10px;
+            }
+            pre {
+                white-space: pre-wrap;
+                line-height: 1.6;
+                font-size: 16px;
+            }
+            footer {
+                text-align: center;
+                color: #999;
+                font-size: 13px;
+                margin-top: 60px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>📖 전체 소설 미리보기</h1>
+        <div style="text-align: center; margin-bottom: 30px">
+            <button
+                onclick="window.location.href='episode-create.html'"
+                style="
+                    padding: 10px 20px;
+                    font-size: 15px;
+                    background-color: #3498db;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                "
+            >
+                ✍️ 소설 수정하기
+            </button>
+        </div>
+
+        <div id="novelContainer"></div>
+
+        <footer>© 2025 Novello Studio. All rights reserved.</footer>
+
+        <script>
+            const storageKey = "novello_episodes";
+
+            function renderEpisodes() {
+                const data = JSON.parse(localStorage.getItem(storageKey) || "{}");
+                const container = document.getElementById("novelContainer");
+
+                if (Object.keys(data).length === 0) {
+                    container.innerHTML = "<p>저장된 회차가 없습니다.</p>";
+                    return;
+                }
+
+                const keys = Object.keys(data).sort((a, b) => a - b);
+                keys.forEach((key) => {
+                    const {prompt, content} =
+                        typeof data[key] === "string" ? {prompt: "", content: data[key]} : data[key];
+
+                    const episodeDiv = document.createElement("div");
+                    episodeDiv.className = "episode";
+                    episodeDiv.innerHTML = `
+          <h2>${key}화</h2>
+          <div class="prompt">${prompt ? "📌 " + prompt : ""}</div>
+          <pre>${content}</pre>
+        `;
+                    container.appendChild(episodeDiv);
+                });
+            }
+
+            renderEpisodes();
+        </script>
+    </body>
+</html>

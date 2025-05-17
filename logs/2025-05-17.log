@@ -1,0 +1,84 @@
+2025-05-17 11:17:21 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:17:21 [[34mdebug[39m]: SQL 실행: SELECT 1
+2025-05-17 11:17:21 [[34mdebug[39m]: Values: []
+2025-05-17 11:33:15 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:33:15 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:34:33 [[31merror[39m]: 회원가입 실패: Cannot destructure property 'username' of 'req.body' as it is undefined.
+2025-05-17 11:36:35 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:36:35 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:36:38 [[31merror[39m]: 회원가입 실패: Cannot destructure property 'username' of 'req.body' as it is undefined.
+2025-05-17 11:37:06 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:37:06 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:37:08 [[31merror[39m]: 회원가입 실패: Cannot destructure property 'username' of 'req.body' as it is undefined.
+2025-05-17 11:37:45 [[34mdebug[39m]: SQL 실행: SELECT * FROM users WHERE email = $1
+2025-05-17 11:37:45 [[34mdebug[39m]: Values: ["hyunsoo@lsware.co.kr"]
+2025-05-17 11:37:45 [[34mdebug[39m]: SQL 실행: INSERT INTO users (username, email, password)
+       VALUES ($1, $2, $3) RETURNING *
+2025-05-17 11:37:45 [[34mdebug[39m]: Values: ["liam","hyunsoo@lsware.co.kr","$2b$10$EOqNEGht6.jeD51iDbxwG.tUyRxBc/6MqzF46X6xUxCbKQulb2GZO"]
+2025-05-17 11:37:45 [[32minfo[39m]: 회원가입 성공: hyunsoo@lsware.co.kr
+2025-05-17 11:39:08 [[34mdebug[39m]: SQL 실행: SELECT * FROM users WHERE email = $1
+2025-05-17 11:39:08 [[34mdebug[39m]: Values: ["hyunsoo@lsware.co.kr"]
+2025-05-17 11:39:08 [[32minfo[39m]: 로그인 성공: hyunsoo@lsware.co.kr
+2025-05-17 11:50:04 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:50:04 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:50:49 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:50:50 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:51:09 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 11:51:09 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 11:51:53 [[34mdebug[39m]: SQL 실행: INSERT INTO projects (user_id, title, genre, keywords, worldview_summary)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *
+2025-05-17 11:51:53 [[34mdebug[39m]: Values: ["00000000-0000-0000-0000-000000000001","마법사의 귀환","판타지",["마법","왕국","이세계"],"고대 마법이 금기시된 세계에서 다시 깨어나는 소년의 이야기입니다."]
+2025-05-17 11:51:53 [[32minfo[39m]: 프로젝트 생성 완료: dbf75ae2-8961-4d3c-9199-db2c041f6221
+2025-05-17 13:43:48 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 13:43:48 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 13:45:12 [[34mdebug[39m]: SQL 실행: INSERT INTO characters (project_id, name, role, description, order_index)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *
+2025-05-17 13:45:12 [[34mdebug[39m]: Values: ["1","엘리시아","주인공 / 마법사","고대 마법의 계승자이자 운명을 거스르는 존재",0]
+2025-05-17 13:45:12 [[31merror[39m]: Query Error: invalid input syntax for type uuid: "1"
+2025-05-17 13:45:12 [[31merror[39m]: 캐릭터 생성 실패: invalid input syntax for type uuid: "1"
+2025-05-17 13:45:15 [[34mdebug[39m]: SQL 실행: INSERT INTO characters (project_id, name, role, description, order_index)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *
+2025-05-17 13:45:15 [[34mdebug[39m]: Values: ["0","엘리시아","주인공 / 마법사","고대 마법의 계승자이자 운명을 거스르는 존재",0]
+2025-05-17 13:45:15 [[31merror[39m]: Query Error: invalid input syntax for type uuid: "0"
+2025-05-17 13:45:15 [[31merror[39m]: 캐릭터 생성 실패: invalid input syntax for type uuid: "0"
+2025-05-17 13:45:16 [[34mdebug[39m]: SQL 실행: INSERT INTO characters (project_id, name, role, description, order_index)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *
+2025-05-17 13:45:16 [[34mdebug[39m]: Values: ["1","엘리시아","주인공 / 마법사","고대 마법의 계승자이자 운명을 거스르는 존재",0]
+2025-05-17 13:45:16 [[31merror[39m]: Query Error: invalid input syntax for type uuid: "1"
+2025-05-17 13:45:16 [[31merror[39m]: 캐릭터 생성 실패: invalid input syntax for type uuid: "1"
+2025-05-17 13:45:25 [[34mdebug[39m]: SQL 실행: INSERT INTO characters (project_id, name, role, description, order_index)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *
+2025-05-17 13:45:25 [[34mdebug[39m]: Values: ["dbf75ae2-8961-4d3c-9199-db2c041f6221","엘리시아","주인공 / 마법사","고대 마법의 계승자이자 운명을 거스르는 존재",0]
+2025-05-17 13:45:25 [[32minfo[39m]: 캐릭터 생성: e482928a-3157-4c34-9e58-0d73be8e35ff
+2025-05-17 13:48:04 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 13:48:04 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 13:49:14 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 13:49:14 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 13:49:41 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 13:49:41 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 13:51:18 [[34mdebug[39m]: SQL 실행: SELECT * FROM characters
+       WHERE project_id = $1
+       ORDER BY order_index ASC, created_at ASC
+2025-05-17 13:51:18 [[34mdebug[39m]: Values: ["dbf75ae2-8961-4d3c-9199-db2c041f6221"]
+2025-05-17 14:02:32 [[34mdebug[39m]: SQL 실행: SELECT * FROM users WHERE email = $1
+2025-05-17 14:02:32 [[34mdebug[39m]: Values: ["liam@lsware.co.kr"]
+2025-05-17 14:02:32 [[33mwarn[39m]: 로그인 실패 - 이메일 없음: liam@lsware.co.kr
+2025-05-17 14:02:44 [[34mdebug[39m]: SQL 실행: SELECT * FROM users WHERE email = $1
+2025-05-17 14:02:44 [[34mdebug[39m]: Values: ["hyunsoo@lsware.co.kr"]
+2025-05-17 14:02:44 [[32minfo[39m]: 로그인 성공: hyunsoo@lsware.co.kr
+2025-05-17 14:09:16 [[33mwarn[39m]: Refresh 토큰 검증 실패: Invalid or expired token
+2025-05-17 14:11:35 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 14:11:36 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 14:12:53 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 14:12:53 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 14:12:57 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 14:12:57 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 14:13:24 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 14:13:24 [[32minfo[39m]: Server running at http://localhost:3000
+2025-05-17 14:13:28 [[32minfo[39m]: ✅ PostgreSQL 연결됨
+2025-05-17 14:13:28 [[32minfo[39m]: Server running at http://localhost:3000

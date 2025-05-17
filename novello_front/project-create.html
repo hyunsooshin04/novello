@@ -1,0 +1,273 @@
+<!-- ✅ 생략 없이 전체 HTML입니다. -->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Novello Studio - 새 프로젝트 생성</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+            }
+
+            header {
+                background-color: #2c3e50;
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .container {
+                max-width: 700px;
+                margin: 50px auto;
+                background-color: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            label {
+                font-weight: bold;
+                display: block;
+                margin: 15px 0 5px;
+            }
+
+            .input-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            input[type="text"],
+            select,
+            textarea {
+                flex: 1;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                resize: vertical;
+                font-size: 16px;
+            }
+
+            textarea {
+                height: 120px;
+            }
+
+            .ai-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+                background-color: #eee;
+                border: 1px solid #bbb;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+
+            .create-btn {
+                width: 100%;
+                margin-top: 30px;
+                padding: 15px;
+                font-size: 18px;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .create-btn:hover {
+                background-color: #2980b9;
+            }
+
+            footer {
+                text-align: center;
+                margin-top: 80px;
+                padding: 20px;
+                font-size: 14px;
+                color: #777;
+                background-color: #ecf0f1;
+            }
+
+            /* 모달 */
+            .modal-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.4);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+
+            .modal {
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                max-width: 500px;
+                width: 90%;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                text-align: center;
+            }
+
+            .modal h3 {
+                margin-top: 0;
+            }
+
+            .modal button {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #3498db;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>📘 새 프로젝트 만들기</h1>
+        </header>
+
+        <div class="container">
+            <h2>프로젝트 정보를 입력해주세요</h2>
+
+            <form onsubmit="handleSubmit(event)">
+                <label for="title">프로젝트 제목</label>
+                <div class="input-row">
+                    <input type="text" id="title" required placeholder="예: 어둠 속의 별빛" />
+                    <button type="button" class="ai-btn" onclick="showModal('title')">AI 제안</button>
+                </div>
+
+                <label for="genre">장르 선택</label>
+                <div class="input-row">
+                    <select id="genre" required>
+                        <option value="">-- 장르 선택 --</option>
+                        <option value="판타지">판타지</option>
+                        <option value="로맨스">로맨스</option>
+                        <option value="SF">SF</option>
+                        <option value="스릴러">스릴러</option>
+                        <option value="기타">기타</option>
+                    </select>
+                    <button type="button" class="ai-btn" onclick="showModal('genre')">AI 제안</button>
+                </div>
+
+                <label for="keywords">세계관 키워드 (쉼표로 구분)</label>
+                <div class="input-row">
+                    <input type="text" id="keywords" placeholder="예: 이세계, 마법, 왕국, 전쟁" />
+                    <button type="button" class="ai-btn" onclick="showModal('keywords')">AI 제안</button>
+                </div>
+
+                <label for="worldview">간단한 세계관 설명</label>
+                <div class="input-row">
+                    <textarea
+                        id="worldview"
+                        placeholder="예: 이 세계는 마법과 기계가 공존하는 신비로운 대륙에서 펼쳐지는 전쟁 이야기입니다."
+                    ></textarea>
+                    <button type="button" class="ai-btn" onclick="showModal('worldview')">AI 제안</button>
+                </div>
+
+                <button type="submit" class="create-btn">세계관 생성 시작하기</button>
+            </form>
+        </div>
+
+        <div id="modal-backdrop" class="modal-backdrop" onclick="closeModal(event)">
+            <div class="modal" onclick="event.stopPropagation()">
+                <h3 id="modal-title">AI 제안 요청</h3>
+
+                <!-- 단계 1: 사용자 질문 입력 -->
+                <div id="step-prompt">
+                    <p>어떤 방식으로 제안해드릴까요?</p>
+                    <input
+                        type="text"
+                        id="promptInput"
+                        placeholder="예: 감성적인 제목으로 추천해줘"
+                        style="width: 100%; padding: 10px; margin-top: 10px"
+                    />
+                    <button onclick="generateSuggestion()" style="margin-top: 20px">확인</button>
+                </div>
+
+                <!-- 단계 2: AI 제안 표시 -->
+                <div id="step-suggestion" style="display: none">
+                    <p><strong>AI 제안 결과:</strong></p>
+                    <p
+                        id="modal-suggestion"
+                        style="white-space: pre-line; background: #f4f4f4; padding: 10px; border-radius: 6px"
+                    ></p>
+                    <div style="margin-top: 20px">
+                        <button onclick="applySuggestion()">적용</button>
+                        <button onclick="closeModal()">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>© 2025 Novello Studio. All rights reserved.</footer>
+
+        <script>
+            let currentTargetField = null;
+            let currentGeneratedText = "";
+
+            // 모달 열기
+            function showModal(field) {
+                currentTargetField = field;
+                document.getElementById("modal-title").innerText = "AI 제안 요청";
+                document.getElementById("promptInput").value = "";
+                document.getElementById("step-prompt").style.display = "block";
+                document.getElementById("step-suggestion").style.display = "none";
+                document.getElementById("modal-backdrop").style.display = "flex";
+            }
+
+            // 사용자 질문 기반으로 가짜 AI 제안 생성
+            function generateSuggestion() {
+                const userRequest = document.getElementById("promptInput").value.trim();
+                if (!userRequest) {
+                    alert("요청 내용을 입력해주세요.");
+                    return;
+                }
+
+                // 실제로는 여기에 AI API 연동
+                const samples = {
+                    title: `예: '어둠 속의 별빛', '시간을 걷는 아이', '망각의 숲'`,
+                    genre: `장르별 분위기 추천:\n- 판타지: 대륙, 왕국, 마법\n- 로맨스: 감정 중심\n- SF: 기술/미래사회`,
+                    keywords: `예: 마법, 이세계, 운명, 전쟁, 혁명`,
+                    worldview: `이 세계는 고대 신들의 마법과 기계 문명이 충돌하며 시작된 대전쟁 이후, 무너진 질서를 되찾기 위한 여정을 그린다.`,
+                };
+
+                const fallback = `예시를 기반으로 AI가 제안한 결과입니다.\n요청: ${userRequest}\n→ 결과: (${samples[currentTargetField]})`;
+
+                currentGeneratedText = samples[currentTargetField] || fallback;
+
+                document.getElementById("modal-suggestion").innerText = currentGeneratedText;
+                document.getElementById("step-prompt").style.display = "none";
+                document.getElementById("step-suggestion").style.display = "block";
+            }
+
+            // 적용 버튼
+            function applySuggestion() {
+                const field = document.getElementById(currentTargetField);
+                if (field) {
+                    field.value = currentGeneratedText.replace(/^예:\s*/, "");
+                }
+                closeModal();
+            }
+
+            // 모달 닫기
+            function closeModal(e) {
+                if (e && e.target !== document.getElementById("modal-backdrop")) return;
+                document.getElementById("modal-backdrop").style.display = "none";
+            }
+        </script>
+    </body>
+</html>
