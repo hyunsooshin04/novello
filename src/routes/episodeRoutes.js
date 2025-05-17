@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-  createEpisode,
-  getEpisode,
-  getAllEpisodes,
-  updateEpisode,
-  deleteEpisode
+    createEpisode,
+    getEpisode,
+    getAllEpisodes,
+    updateEpisode,
+    deleteEpisode,
 } from '../controllers/episodeController.js';
 
 const router = express.Router();
