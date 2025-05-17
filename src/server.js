@@ -10,6 +10,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import characterRoutes from './routes/characterRoutes.js';
 import episodeRoutes from './routes/episodeRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import worldviewRoutes from './routes/worldviewRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/api/projects', projectRoutes); // 프로젝트 관리
 app.use('/api/characters', characterRoutes); // 캐릭터 관리
 app.use('/api/episodes', episodeRoutes); // 에피소드 관리
 app.use('/api/ai', aiRoutes); // AI 자동 생성 (세계관, 캐릭터, 회차)
+app.use('/api/worldviews', worldviewRoutes); // 세계관 관리
 
 // 상태 확인
 app.get('/', (req, res) => {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8" />
@@ -12,7 +12,7 @@
             }
 
             body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: #f7f7f7;
                 color: #333;
             }
@@ -124,8 +124,16 @@
 
         <div class="container">
             <h2>AI와 함께 쓰는 나만의 소설</h2>
-            <p>세계관, 캐릭터, 회차별 내용까지…<br />AI가 초안을 만들고, 당신이 완성합니다.</p>
-            <button class="start-btn" onclick="location.href='project-create.html'">새 프로젝트 시작하기</button>
+            <p>
+                세계관, 캐릭터, 회차별 내용까지…<br />AI가 초안을 만들고, 당신이
+                완성합니다.
+            </p>
+            <button
+                class="start-btn"
+                onclick="location.href='project-create.html'"
+            >
+                새 프로젝트 시작하기
+            </button>
 
             <div class="recent-projects">
                 <h3>📂 최근 작업한 프로젝트</h3>
@@ -140,19 +148,20 @@
         <script>
             // 예시: 로컬에서 최근 프로젝트 목록 불러오기
             const dummyProjects = [
-                {id: 1, title: "달빛의 전설", updated: "2025-05-10"},
-                {id: 2, title: "이세계 리셋", updated: "2025-05-08"},
-                {id: 3, title: "AI 검사의 복수극", updated: "2025-05-05"},
+                { id: 1, title: '달빛의 전설', updated: '2025-05-10' },
+                { id: 2, title: '이세계 리셋', updated: '2025-05-08' },
+                { id: 3, title: 'AI 검사의 복수극', updated: '2025-05-05' },
             ];
 
-            const projectList = document.getElementById("projectList");
+            const projectList = document.getElementById('projectList');
 
             if (dummyProjects.length === 0) {
-                projectList.innerHTML = "<p class='empty-message'>최근 작업한 프로젝트가 없습니다.</p>";
+                projectList.innerHTML =
+                    "<p class='empty-message'>최근 작업한 프로젝트가 없습니다.</p>";
             } else {
                 dummyProjects.forEach((project) => {
-                    const div = document.createElement("div");
-                    div.className = "project-item";
+                    const div = document.createElement('div');
+                    div.className = 'project-item';
                     div.innerHTML = `<strong>${project.title}</strong><br><small>최근 수정일: ${project.updated}</small>`;
                     div.onclick = () => {
                         // 실제 구현 시 project-detail.html?id=1 등으로 이동
