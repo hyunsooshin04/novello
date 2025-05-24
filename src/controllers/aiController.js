@@ -6,6 +6,7 @@ import {
 
 import logger from '../utils/logger.js';
 
+// 세계관 생성
 export const generateWorldviewHandler = async (req, res) => {
     try {
         const { title, genre, keywords } = req.body;
@@ -28,6 +29,7 @@ export const generateWorldviewHandler = async (req, res) => {
     }
 };
 
+// 캐릭터 생성
 export const generateCharacterHandler = async (req, res) => {
     try {
         const { title, genre, keywords } = req.body;
@@ -50,6 +52,7 @@ export const generateCharacterHandler = async (req, res) => {
     }
 };
 
+// 회차 생성
 export const generateEpisodeHandler = async (req, res) => {
     try {
         const {
@@ -60,6 +63,7 @@ export const generateEpisodeHandler = async (req, res) => {
             min_length,
             worldview,
             characters,
+            previous_episodes,
         } = req.body;
 
         if (
@@ -84,6 +88,7 @@ export const generateEpisodeHandler = async (req, res) => {
             min_length,
             worldview,
             characters,
+            previous_episodes,
         });
 
         return res.json({

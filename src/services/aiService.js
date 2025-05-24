@@ -7,6 +7,8 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+const aiModel = 'gpt-4.1-mini';
+
 export async function generateWorldview({ title, genre, keywords }) {
     const prompt = `
         당신은 세계관 디자이너입니다. 아래 정보를 바탕으로 소설의 세계관을 구성해 주세요.
@@ -25,7 +27,8 @@ export async function generateWorldview({ title, genre, keywords }) {
         `;
 
     const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
+        // model: 'gpt-4',
+        model: aiModel,
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
     });
@@ -97,6 +100,51 @@ export async function generateCharacters({ title, genre, keywords }) {
     return characterList.filter((c) => c.name && c.role && c.description);
 }
 
+// export async function generateEpisode({
+//     title,
+//     genre,
+//     episode_number,
+//     prompt,
+//     min_length,
+//     worldview,
+//     characters,
+// }) {
+//     const worldviewText = `배경: ${worldview.background}
+//         역사: ${worldview.history}
+//         질서: ${worldview.power}
+//         신화: ${worldview.myth}`;
+
+//     const characterText = characters
+//         .map((c, i) => `${i + 1}. ${c.name} (${c.role}) - ${c.description}`)
+//         .join('\n');
+
+//     const fullPrompt = `
+//         당신은 소설 작가입니다. 다음 설정을 바탕으로 ${min_length}자 이상의 ${episode_number}화 소설을 작성해주세요.
+
+//         [제목] ${title}
+//         [장르] ${genre}
+
+//         [회차 프롬프트]
+//         ${prompt}
+
+//         [세계관]
+//         ${worldviewText}
+
+//         [등장인물]
+//         ${characterText}
+
+//         [소설 본문 시작]
+//         `;
+
+//     const completion = await openai.chat.completions.create({
+//         model: 'gpt-4',
+//         messages: [{ role: 'user', content: fullPrompt }],
+//         temperature: 0.8,
+//     });
+
+//     return completion.choices[0].message.content.trim();
+// }
+
 export async function generateEpisode({
     title,
     genre,
@@ -105,39 +153,73 @@ export async function generateEpisode({
     min_length,
     worldview,
     characters,
+    previous_episodes = [],
 }) {
     const worldviewText = `배경: ${worldview.background}
-        역사: ${worldview.history}
-        질서: ${worldview.power}
-        신화: ${worldview.myth}`;
+  역사: ${worldview.history}
+  질서: ${worldview.power}
+  신화: ${worldview.myth}`;
 
     const characterText = characters
         .map((c, i) => `${i + 1}. ${c.name} (${c.role}) - ${c.description}`)
         .join('\n');
 
-    const fullPrompt = `
-        당신은 소설 작가입니다. 다음 설정을 바탕으로 ${min_length}자 이상의 ${episode_number}화 소설을 작성해주세요.
+    const previousText =
+        previous_episodes.length > 0
+            ? previous_episodes
+                  .map((ep) => `- [${ep.episode_number}화] ${ep.content}`)
+                  .join('\n')
+            : '없음';
 
+    const basePrompt = `
+        당신은 연재형 소설 작가입니다. 아래 내용을 바탕으로 ${min_length}자 이상의 회차를 작성하세요.
+        
         [제목] ${title}
         [장르] ${genre}
-
-        [회차 프롬프트]
-        ${prompt}
-
+        [현재 회차 프롬프트] ${prompt}
+        
+        [이전 회차 요약]
+        ${previousText}
+        
         [세계관]
         ${worldviewText}
-
+        
         [등장인물]
         ${characterText}
-
+        
         [소설 본문 시작]
         `;
 
-    const completion = await openai.chat.completions.create({
+    const initialRes = await openai.chat.completions.create({
         model: 'gpt-4',
-        messages: [{ role: 'user', content: fullPrompt }],
+        messages: [{ role: 'user', content: basePrompt }],
         temperature: 0.8,
     });
 
-    return completion.choices[0].message.content.trim();
+    let content = initialRes.choices[0].message.content.trim();
+    const charCount = content.length;
+
+    // 부족한 경우 이어서 요청
+    if (charCount < min_length) {
+        const remaining = min_length - charCount;
+
+        const continuePrompt = `
+            다음은 ${episode_number}화의 기존 소설 내용입니다. 이를 이어서 ${remaining}자 이상 자연스럽게 더 작성해 주세요.
+            
+            [기존 내용]
+            ${content}
+            `;
+
+        const continueRes = await openai.chat.completions.create({
+            // model: 'gpt-4',
+            model: aiModel,
+            messages: [{ role: 'user', content: continuePrompt }],
+            temperature: 0.8,
+        });
+
+        const continuation = continueRes.choices[0].message.content.trim();
+        content += '\n\n' + continuation;
+    }
+
+    return content;
 }

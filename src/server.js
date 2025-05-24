@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 // 예외 처리
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     logger.error(`Unhandled Error: ${err.message}`);
     res.status(500).json({ message: '서버 오류가 발생했습니다.' });
 });
